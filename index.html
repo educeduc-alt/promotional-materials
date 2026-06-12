@@ -469,6 +469,15 @@ const DEFAULT_ITEMS = [
 {id:43, cat:'宣導品', name:'冰霸杯', price:500, note:'北極藍/白/粉/黑', room:115, wh:0, loc:['yd-shelf']},
 {id:44, cat:'宣導品', name:'警報器', price:176, room:54, wh:0, loc:['yd-rb']},
 {id:45, cat:'宣導品', name:'兩用式帆布袋', price:120, note:'實習/畢業包｜24(有裝東西)、25(空)', room:49, wh:0, loc:['q-right']},
+// ---- 宣導品（包袋類）----
+{id:55, cat:'宣導品', name:'垮包零錢包', price:null, room:94, wh:0, loc:[]},
+{id:56, cat:'宣導品', name:'識別證套', price:null, room:100, wh:0, loc:[]},
+{id:57, cat:'宣導品', name:'運動背包', price:null, room:28, wh:46, loc:[]},
+{id:58, cat:'宣導品', name:'畢業包', price:null, room:61, wh:40, loc:[]},
+{id:59, cat:'宣導品', name:'韓版三色零錢包', price:null, room:100, wh:0, loc:[]},
+{id:60, cat:'宣導品', name:'牛津健身包', price:null, room:37, wh:63, loc:[]},
+{id:61, cat:'宣導品', name:'茄芷袋仔', price:null, room:49, wh:98, loc:[]},
+{id:62, cat:'宣導品', name:'四格微波便當盒', price:null, room:50, wh:50, loc:[]},
 // ---- 文具 ----
 {id:46, cat:'文具', name:'筆袋', price:14, room:69, wh:0, loc:[]},
 {id:47, cat:'文具', name:'立可帶', price:45, room:69, wh:0, loc:[]},
@@ -479,15 +488,6 @@ const DEFAULT_ITEMS = [
 {id:52, cat:'文具', name:'原子筆－黑', price:9, room:69, wh:0, loc:[]},
 {id:53, cat:'文具', name:'原子筆－紅', price:9, room:69, wh:0, loc:[]},
 {id:54, cat:'文具', name:'螢光筆', price:11, room:69, wh:0, loc:[]},
-// ---- 包袋 ----
-{id:55, cat:'包袋', name:'垮包零錢包', price:null, room:94, wh:0, loc:[]},
-{id:56, cat:'包袋', name:'識別證套', price:null, room:100, wh:0, loc:[]},
-{id:57, cat:'包袋', name:'運動背包', price:null, room:28, wh:46, loc:[]},
-{id:58, cat:'包袋', name:'畢業包', price:null, room:61, wh:40, loc:[]},
-{id:59, cat:'包袋', name:'韓版三色零錢包', price:null, room:100, wh:0, loc:[]},
-{id:60, cat:'包袋', name:'牛津健身包', price:null, room:37, wh:63, loc:[]},
-{id:61, cat:'包袋', name:'茄芷袋仔', price:null, room:49, wh:98, loc:[]},
-{id:62, cat:'包袋', name:'四格微波便當盒', price:null, room:50, wh:50, loc:[]},
 // ---- 團體服 ----
 {id:70, cat:'團體服', name:'團體服－藍色薄外套', price:460, loc:['yd-wall','q-left','q-right'],
   sizes:[{s:'M',room:7,wh:0},{s:'L',room:7,wh:27},{s:'XL',room:7,wh:33},{s:'2XL',room:7,wh:18},{s:'3XL',room:7,wh:11},{s:'4XL',room:1,wh:2}]},
@@ -524,6 +524,10 @@ async function loadState(){
       const d = JSON.parse(r.value);
       if(Array.isArray(d.items)) items = d.items;
       if(Array.isArray(d.log)) log = d.log;
+      // 資料遷移：包袋類別併入宣導品
+      items.forEach(i=>{ if(i.cat==='包袋') i.cat='宣導品'; });
+      const ORDER={'宣導品':0,'文具':1,'團體服':2};
+      items.sort((a,b)=>(ORDER[a.cat]??9)-(ORDER[b.cat]??9));
     }
   }catch(e){ /* 沒有舊資料，使用預設 */ }
   renderAll();
