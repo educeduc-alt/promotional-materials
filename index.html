@@ -1474,8 +1474,8 @@ function genDoc(scope){
     const formattedTitle = code ? `${code}「${titleBody}」` : `「${titleBody}」`;
     // 解析承辦單位：若有「承辦單位：XXX」則只顯示承辦單位，否則顯示完整機關名
     const orgRaw = act.org||'○○機關';
-    const承辦Match = orgRaw.match(/承辦單位[：:]([^）)]+)/);
-    const orgDisplay = 承辦Match ? 承辦Match[1].trim() : orgRaw;
+    const subMatch = orgRaw.match(/承辦單位[：:：](.+?)(?=[）)（(]|$)/);
+    const orgDisplay = subMatch ? subMatch[1].trim().replace(/[）)]/g,'') : orgRaw;
     doc=`擬：
 1. 本文為${orgDisplay}辦理${formattedTitle}研習實施計畫。
 2. 由資源教室輔導人員${nameList}前往參加。
@@ -1496,8 +1496,8 @@ function genDoc(scope){
     const titleBody2 = rawTitle2.replace(/【[^】]+】/g,'').trim();
     const formattedTitle2 = code2 ? `${code2}「${titleBody2}」` : `「${titleBody2}」`;
     const orgRaw2 = act.org||'○○機關';
-    const承辦Match2 = orgRaw2.match(/承辦單位[：:]([^）)]+)/);
-    const orgDisplay2 = 承辦Match2 ? 承辦Match2[1].trim() : orgRaw2;
+    const subMatch2 = orgRaw2.match(/承辦單位[：:：](.+?)(?=[）)（(]|$)/);
+    const orgDisplay2 = subMatch2 ? subMatch2[1].trim().replace(/[）)]/g,'') : orgRaw2;
     doc=`擬：
 1. 本文為${orgDisplay2}辦理${formattedTitle2}研習實施計畫。
 2. ${reason}
